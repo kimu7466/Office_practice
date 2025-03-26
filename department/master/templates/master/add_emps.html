@@ -1,0 +1,57 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">{% if is_edit %}Edit Employee{% else %}Add Employee{% endif %}</h1>
+        
+        <!-- Back and Home Links -->
+        <div class="d-flex justify-content-between mb-4">
+            <a href="{% url 'emp_view' %}" class="btn btn-secondary">Back to Employees</a>
+            <a href="{% url 'home_view' %}" class="btn btn-primary">Home</a>
+        </div>
+        
+        <!-- Form for Adding Employee -->
+        <form action="{% if is_edit %}{% url 'edit_emp' emp.id %}{% else %}{% url 'add_emps' %}{% endif %}" method="post" enctype="multipart/form-data" class="border p-4 rounded shadow">
+            {% csrf_token %}
+            
+            <!-- Employee ID (Hidden) -->
+            <input type="text" name="id" id="id" value="{{emp.id}}" hidden>
+
+            <!-- Profile Picture Field -->
+            <div class="mb-3">
+                <label for="profile" class="form-label">Profile Picture</label>
+                <input type="file" name="profile" id="profile" class="form-control" accept="image/*" value="{{emp.profile.url}}">
+                {% if emp.profile %}
+                <img src="{{emp.profile.url}}" alt="Profile Image" class="img-fluid mt-2" width="100">
+                {% endif %}
+
+            </div>
+
+            <!-- Department Field -->
+            <div class="mb-3">
+                <label for="dept" class="form-label">Department</label>
+                <select name="dept" id="dept" class="form-select" required>
+                    <option value="" disabled selected>Select a department...</option>
+                    {% for d in dept %}
+                        <option value="{{d.id}}" {% if d.id == emp.dept_id %}selected{% endif %}>{{d.d_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Name Field -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" id="name" class="form-control" value="{{emp.name}}" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" value="{{emp.password}}" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success">{% if is_edit %}Edit Employee{% else %}Add Employee{% endif %}</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Employees</h1>
+
+        <!-- Add Employee and Home Links -->
+        <div class="d-flex justify-content-between mb-4">
+            <a href="{% url 'add_emps' %}" class="btn btn-primary">Add Employees</a>
+            <a href="{% url 'home_view' %}" class="btn btn-secondary">Home</a>
+        </div>
+
+        <!-- Employees List -->
+        <div class="list-group">
+            {% for e in emps %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <!-- Employee Info -->
+                    <div class="d-flex align-items-center">
+                        <img src="{{e.profile.url}}" width="50px" alt="Profile Picture" class="rounded-circle me-3">
+                        <div>
+                            <strong>{{e.name}}</strong><br>
+                            <small>{{e.dept}}</small><br>
+                            <small>{{e.created_at}} | {{e.updated_at}}</small>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div>
+                        <a href="{% url 'edit_emp' id=e.id %}" class="btn btn-warning btn-sm me-2">Edit</a>
+                        <a href="{% url 'delete_emp' id=e.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        <!-- View Button -->
+                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{e.id}}">
+                            View
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal for Viewing Employee Details -->
+                <div class="modal fade" id="viewModal{{e.id}}" tabindex="-1" aria-labelledby="viewModalLabel{{e.id}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewModalLabel{{e.id}}">Employee Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="{{e.profile.url}}" width="80px" alt="Profile Picture" class="rounded-circle me-3">
+                                    <div>
+                                        <strong>{{e.name}}</strong><br>
+                                        <small><strong>Department:</strong> {{e.dept}}</small><br>
+                                        <small><strong>Created At:</strong> {{e.created_at}}</small><br>
+                                        <small><strong>Updated At:</strong> {{e.updated_at}}</small>
+                                    </div>
+                                </div>
+                                <p><strong>Additional Info:</strong></p>
+                                <!-- Include other fields you want to display -->
+                                <p>{{e.additional_info}}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

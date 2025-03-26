@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Departments</h1>
+        
+        <!-- Back to Home and Add Department Links -->
+        <div class="d-flex justify-content-between mb-4">
+            <a href="{% url 'add_dept' %}" class="btn btn-primary">Add Department</a>
+            <a href="{% url 'home_view' %}" class="btn btn-secondary">Home</a>
+        </div>
+
+        <!-- Departments List -->
+        <div class="list-group">
+            {% for d in depts %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{d.d_name}}</strong> <br>
+                        <small>{{d.about}}</small>
+                    </div>
+                    <div class="d-flex">
+                        <a href="{% url 'edit_dept' id=d.id %}" class="btn btn-warning btn-sm mr-2">Edit</a>
+                        <a href="{% url 'delete_dept' id=d.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <div class="container mt-5 text-center">
+        <h1 class="mb-4">Welcome to the Home Page</h1>
+
+        <!-- Department and Employee Links -->
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'dept_view' %}" class="btn btn-primary btn-lg mx-2">Departments</a>
+            <a href="{% url 'emp_view' %}" class="btn btn-success btn-lg mx-2">Employees</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">{% if is_edit %}Edit Department{% else %}Add Department{% endif %}</h1>
+        
+        <!-- Back and Home Links -->
+        <div class="d-flex justify-content-between mb-4">
+            <a href="{% url 'dept_view' %}" class="btn btn-secondary">Back to Departments</a>
+            <a href="{% url 'home_view' %}" class="btn btn-primary">Home</a>
+        </div>
+        
+        <!-- Form for Adding Department -->
+        <form action="{% if is_edit %}{% url 'edit_dept' dep.id %}{% else %}{% url 'add_dept' %}{% endif %}" method="post" class="border p-4 rounded shadow">
+            {% csrf_token %}
+            
+            <!-- Name Field -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Department Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter department name" value="{{dep.d_name}}" required>
+            </div>
+            
+            <!-- About Field -->
+            <div class="mb-3">
+                <label for="about" class="form-label">About</label>
+                <textarea name="about" id="about" class="form-control" rows="4" placeholder="Enter department description" required>{{dep.about}}</textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success">{% if is_edit %}Edit Department{% else %}Add Department{% endif %}</button>
+        </form>
+    </div>
+{% endblock %}
